@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { fetchConfig } from '../utils/fetchConfig';
 
 function Planning() {
   // set states for team venues data, including loading and errors
@@ -13,6 +14,8 @@ function Planning() {
 
   // allow navigation between application pages
   let navigate = useNavigate();
+
+  // function to handle row click --> navigate user to new page and pass relevant parameters
   const handleRowClick = (event) => {
     navigate(`/locations/${event.data.venue}/${event.data.address}/${event.data.city}`);
   };
@@ -33,7 +36,10 @@ function Planning() {
   // fetch team venues
   const fetchTeamVenues = async() => {
     try {
-      const response = await fetch(`http://localhost:3001/api/teams`);
+      // call fetchConfig() to get backend API URL
+      const backendURL = await fetchConfig();
+      
+      const response = await fetch(`${backendURL}/api/teams`);
       const data = await response.json();
       return data.response;
     } catch {

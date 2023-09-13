@@ -6,6 +6,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { GiSoccerBall } from 'react-icons/gi';
 import { IoInformationSharp } from 'react-icons/io5';
+import { fetchConfig } from '../utils/fetchConfig';
 
 function Home() {
   // set state for count, to be updated when fetching page counter
@@ -14,7 +15,10 @@ function Home() {
   // fetch page counter from server
   const fetchCounter = async() => {
     try {
-      const response = await fetch(`http://localhost:3001/`);
+      // call fetchConfig() to get backend API URL
+      const backendURL = await fetchConfig();
+
+      const response = await fetch(`${backendURL}/`);
       const counterFile = await response.json();
       return counterFile.count;
     } catch {
@@ -41,6 +45,8 @@ function Home() {
 
   // allow navigation between application pages
   let navigate = useNavigate();
+
+  // function to handle row click --> navigate user to new page and pass relevant parameters
   const handleRowClick = (event) => {
     navigate(`/news/${event.data.team}`);
   };
@@ -80,7 +86,10 @@ function Home() {
   // fetch standings data
   const fetchStandings = async() => {
     try {
-      const response = await fetch(`http://localhost:3001/api/standings`);
+      // call fetchConfig() to get backend API URL
+      const backendURL = await fetchConfig();
+
+      const response = await fetch(`${backendURL}/api/standings`);
       const data = await response.json();
       return data.response;
     } catch {
@@ -113,7 +122,10 @@ function Home() {
   // fetch players data
   const fetchPlayers = async() => {
     try {
-      const response = await fetch(`http://localhost:3001/api/topscorers`);
+      // call fetchConfig() to get backend API URL
+      const backendURL = await fetchConfig();
+
+      const response = await fetch(`${backendURL}/api/topscorers`);
       const data = await response.json();
       return data.response;
     } catch {

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Badge } from 'reactstrap';
 import { HiOutlineNewspaper } from 'react-icons/hi';
+import { fetchConfig } from '../utils/fetchConfig';
 
 function TeamNews() {
   // grab team data from passed parameters (this is the team's name)
@@ -16,7 +17,10 @@ function TeamNews() {
   // fetch news articles on the selected team
   const fetchTeamNews = async() => {
     try {
-      const response = await fetch(`http://localhost:3001/api/news/${team}`);
+      // call fetchConfig() to get backend API URL
+      const backendURL = await fetchConfig();
+
+      const response = await fetch(`${backendURL}/api/news/${team}`);
       const data = await response.json();
       return data.articles;
     } catch {

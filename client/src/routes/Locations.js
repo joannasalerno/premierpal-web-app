@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import  { HiBuildingStorefront } from 'react-icons/hi2';
 import { IoLocationSharp } from 'react-icons/io5';
 import { IoMdBeer } from 'react-icons/io';
+import { fetchConfig } from '../utils/fetchConfig';
 
 function Locations() {
   // grab venue, address, and city data from passed parameters
@@ -16,7 +17,10 @@ function Locations() {
   // fetch locations data
   const fetchLocations = async() => {
     try {
-      const response = await fetch(`http://localhost:3001/api/locations/${venue}/${address}/${city}`);
+      // call fetchConfig() to get backend API URL
+      const backendURL = await fetchConfig();
+
+      const response = await fetch(`${backendURL}/api/locations/${venue}/${address}/${city}`);
       const data = await response.json();
       return data;
     } catch {
