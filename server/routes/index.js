@@ -33,7 +33,7 @@ async function createS3bucket() {
     // upload counter file to bucket
     await uploadJsonToS3(newJsonData);
   
-  // check if bucket already exists, and if so, return message
+  // check if bucket already exists, and if so, return a message to user
   } catch (err) {
     if (err.statusCode === 409) {
       console.log(`Bucket already exists: ${bucketName}`);
@@ -54,8 +54,10 @@ async function getObjectFromS3() {
     const parsedData = JSON.parse(data.Body.toString('utf-8'));
     console.log('Parsed JSON data:', parsedData);
 
-    // increment
+    // parse the page visit counter as an integer
     let parsedInt = parseInt(parsedData.count);
+
+    // increment the page visit counter by 1
     let incrementedData = ++parsedInt;
 
     const jsonData = {
@@ -89,7 +91,7 @@ async function uploadJsonToS3(data) {
 };
 
 // page counter route
-router.get('/', function(req, res, next) {
+router.get('/counter', function(req, res, next) {
 
   // call the upload
   (async () => {
@@ -101,8 +103,8 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'PremierPal Server' });
-// });
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'PremierPal Server' });
+});
 
 module.exports = router;
