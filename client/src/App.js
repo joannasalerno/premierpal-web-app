@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const date = new Date().getFullYear();
+  const date = new Date().getFullYear(); // will use the current year to display in the app's footer
 
   return (
     <div>

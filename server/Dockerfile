@@ -1,3 +1,4 @@
+
 # Use the Node.js LTS image as a base
 FROM node:lts
 
@@ -15,3 +16,7 @@ EXPOSE 3001
 
 # Start command as per the package.json file
 CMD ["npm", "start"]
+
+
+
+

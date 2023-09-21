@@ -20,9 +20,10 @@ function TeamNews() {
       // call fetchConfig() to get backend API URL
       const backendURL = await fetchConfig();
 
+      // fetch team news data from server, passing parameter of team name
       const response = await fetch(`${backendURL}/api/news/${team}`);
       const data = await response.json();
-      return data.articles;
+      return data.articles; // just return the articles
     } catch {
       console.error('Error fetching team news');
     }
@@ -31,17 +32,17 @@ function TeamNews() {
   // call fetchTeamNews() and set news articles data
   useEffect(() => {
     fetchTeamNews()
-      .then((res) => setArticles(res))
+      .then((res) => setArticles(res)) // set articles
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, []);
     
   // display appropriate messages on the page when data are loading or when there are errors
-  if (loading) { // loading team news
+  if (loading) { // display message when loading team news
     return<p>Loading team news...</p>;
   };
     
-  if (error) { // error in fetching team news
+  if (error) { // display meesage when error in fetching team news
     return<p>Something went wrong: {error}</p>;
   };
 

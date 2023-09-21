@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/standings', async function (req, res) {
   const FOOTBALL_API_KEY = process.env.FOOTBALL_API_KEY;
   
-  try {
+  try { // need to specify the league (English Premier League) and season (2023) in fetch
     const response = await fetch(`https://v3.football.api-sports.io/standings?league=39&season=2023`, {
       'method': 'GET',
       'headers': {
@@ -24,7 +24,7 @@ router.get('/standings', async function (req, res) {
   router.get('/topscorers', async function (req, res) {
     const FOOTBALL_API_KEY = process.env.FOOTBALL_API_KEY;
 
-    try {
+    try { // need to specify the league (English Premier League) and season (2023) in fetch
       const response = await fetch(`https://v3.football.api-sports.io/players/topscorers?season=2023&league=39`, {
         'method': 'GET',
         'headers': {
@@ -57,7 +57,7 @@ router.get('/standings', async function (req, res) {
   router.get('/teams', async function (req, res) {
     const FOOTBALL_API_KEY = process.env.FOOTBALL_API_KEY;
   
-    try {
+    try { // need to specify the league (English Premier League) and season (2023) in fetch
       const response = await fetch(`https://v3.football.api-sports.io/teams?league=39&season=2023`, {
         'method': 'GET',
         'headers': {
@@ -76,25 +76,25 @@ router.get('/standings', async function (req, res) {
   router.get('/locations/:venue/:address/:city', async function (req, res) {
     const GEO_API_KEY = process.env.GEO_API_KEY;
     
-    // need to use the venue, address, and city data to get the appropriate location coordinates for the search
+    // need to use the venue, address, and city data (passed as params) to get the appropriate location coordinates for the search
     const venue = req.params.venue;
     const address = req.params.address;
     const city = req.params.city;
   
-    try {
-      // first, we have to get the longitude and latitude of the venue (using venue, address, and city data and ensuring the returned location is an amenity [football stadium] in England)
+    try { // first call is to Geocode endpoint of Geoapify
+      // first, we have to get the longitude and latitude of the venue (using venue, address, and city data and ensuring the returned location is an amenity [football stadium] in England [gb])
       const response1 = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${venue}%20${address}%20${city}&type=amenity&lang=en&filter=countrycode:gb&format=json&apiKey=${GEO_API_KEY}`);
       const data1 = await response1.json();
-      const results1 = data1.results;
+      const results1 = data1.results; // save results
   
-      // saving longitude & latitude
+      // save longitude & latitude from results
       const lon = results1[0].lon;
       const lat = results1[0].lat;
   
-      // next, we can use the coordinates of the stadium (lat, long) to call Geoapify Places to get a list of the surrounding bars and pubs (limited to 10, results in english)
+      // next, we can use the coordinates of the stadium (lat, long) to call the Geoapify Places endpoint to get a list of the surrounding bars and pubs (limited to 10 results in English)
       const response2 = await fetch(`https://api.geoapify.com/v2/places?bias=proximity:${lon},${lat}&categories=catering.bar,catering.pub&limit=10&lang=en&apiKey=${GEO_API_KEY}`);
       const data2 = await response2.json();
-      const results2 = data2.features;
+      const results2 = data2.features; // extract relevant data
       res.json(results2);
     } catch {
       console.error('Error fetching locations');
