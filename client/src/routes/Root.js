@@ -6,14 +6,14 @@ const activeStyle = {
   color: '#59006e'
 };
   
-// css that is applied to each navlink when not active
+// css that is applied to each navlink when inactive
 const inactiveStyle = {
   fontWeight: 'normal',
   color: 'gray'
 }
 
 // this function will comprise the navigation menu for the application
-// only have 2 main routes, as the other app pages require user action to use data to call the relevant APIs on the server and navigate to other pages
+// only have 2 main routes (Home and Planning), as the other app pages require user action to pass parameters and navigate to other related pages
 function Root() {
   return (
     <div className='page-container'>

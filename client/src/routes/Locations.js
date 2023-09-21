@@ -20,9 +20,10 @@ function Locations() {
       // call fetchConfig() to get backend API URL
       const backendURL = await fetchConfig();
 
+      // fetch locations data from server, passing parameters of team venue name, address, and city
       const response = await fetch(`${backendURL}/api/locations/${venue}/${address}/${city}`);
       const data = await response.json();
-      return data;
+      return data; // return the json response
     } catch {
       console.error('Error fetching locations');
     }
@@ -31,17 +32,17 @@ function Locations() {
   // call fetchLocations() and set locations grid row data
   useEffect(() => {
     fetchLocations()
-      .then((res) => {setLocations(res); return res;})
+      .then((res) => {setLocations(res); return res;}) // set the locations data
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, []);
     
   // display appropriate messages on the page when data are loading or when there are errors
-  if (loading) { // loading locations data
+  if (loading) { // display message when loading locations data
     return<p>Loading locations...</p>;
   };
     
-  if (error) { // error in fetching locations data
+  if (error) { // display message when error in fetching locations data
     return<p>Something went wrong: {error}</p>;
   };
 

@@ -18,9 +18,10 @@ function Home() {
       // call fetchConfig() to get backend API URL
       const backendURL = await fetchConfig();
 
-      const response = await fetch(`${backendURL}/`);
+      // fetch counter object from server
+      const response = await fetch(`${backendURL}/counter`);
       const counterFile = await response.json();
-      return counterFile.count;
+      return counterFile.count; // just return the page view count
     } catch {
       console.log('Error fetching page counter');
     }
@@ -29,8 +30,8 @@ function Home() {
   // call fetchPageCounter() and set count variable
   useEffect(() => {
     fetchCounter()
-      .then(res => {return res;})
-      .then(counter => setCount(counter))
+      .then(res => {return res;}) // return the response before doing anything with it 
+      .then(counter => setCount(counter)) // set count variable
       .catch((e) => console.error(e.message))
   }, []);
   
@@ -46,7 +47,7 @@ function Home() {
   // allow navigation between application pages
   let navigate = useNavigate();
 
-  // function to handle row click --> navigate user to new page and pass relevant parameters
+  // function to handle row click --> navigate user to new page and pass relevant parameter of selected team name
   const handleRowClick = (event) => {
     navigate(`/news/${event.data.team}`);
   };
@@ -63,7 +64,7 @@ function Home() {
       { headerName: 'Total Goals Scored', field: 'goals', headerClass: 'column-header' }
     ],
     pagination: true,
-    paginationPageSize: 10,
+    paginationPageSize: 10, // only display 10 teams per table page
     rowSelection: 'single'
   };
   
@@ -79,7 +80,7 @@ function Home() {
       { headerName: 'Red Cards', field: 'reds', headerClass: 'column-header' },
     ],
     pagination: true,
-    paginationPageSize: 10,
+    paginationPageSize: 10, // only display 10 players per table page
     rowSelection: 'single'
   };
 
@@ -89,9 +90,10 @@ function Home() {
       // call fetchConfig() to get backend API URL
       const backendURL = await fetchConfig();
 
+      // fetch standings data from server
       const response = await fetch(`${backendURL}/api/standings`);
       const data = await response.json();
-      return data.response;
+      return data.response; // just return the response (the data)
     } catch {
       console.error('Error fetching standings');
     }
@@ -100,9 +102,9 @@ function Home() {
   // call fetchStandings() and set standings grid row data
   useEffect(() => {
     fetchStandings()
-      .then(res => {console.log(res); return res;})
+      .then(res => {console.log(res); return res;}) // log and return the response before mapping it
       .then(res => 
-        res[0].league.standings[0].map(team => {
+        res[0].league.standings[0].map(team => { // map all teams to extract the desired stats for each individual team 
           return {
             rank: team.rank,
             team: team.team.name,
@@ -116,7 +118,7 @@ function Home() {
       )
       .catch((e) => setSError(e.message))
       .finally(() => setSLoading(false))
-    .then(standings => setSRowData(standings));
+    .then(standings => setSRowData(standings)); // set standings row data to the above mapped data
   }, []);
 
   // fetch players data
@@ -125,9 +127,10 @@ function Home() {
       // call fetchConfig() to get backend API URL
       const backendURL = await fetchConfig();
 
+      // fetch player data from server
       const response = await fetch(`${backendURL}/api/topscorers`);
       const data = await response.json();
-      return data.response;
+      return data.response; // just return the response (the data)
     } catch {
       console.error('Error fetching top scorers');
     }
@@ -136,9 +139,9 @@ function Home() {
   // call fetchPlayers() and set players grid row data
   useEffect(() => {
     fetchPlayers()
-      .then(res => {console.log(res); return res;})
+      .then(res => {console.log(res); return res;}) // log and return the response before mapping it 
       .then(res => 
-        res.map(player => {
+        res.map(player => { // map all players to extract the desired stats for each individual player
           return {
             fName: player.player.firstname,
             lName: player.player.lastname,
@@ -153,23 +156,23 @@ function Home() {
       )
       .catch((e) => setPError(e.message))
       .finally(() => setPLoading(false))
-    .then(players => setPRowData(players));
+    .then(players => setPRowData(players)); // set player row data to the above mapped data
   }, []);
 
   // display appropriate messages on the page when any data are loading or when there are errors
-  if (sLoading) { // loading standings data
+  if (sLoading) { // display message when loading standings data
     return<p>Loading standings data...</p>;
   };
 
-  if (sError) { // error in fetching standings data
+  if (sError) { // display message when error in fetching standings data
     return<p>Something went wrong: {sError}</p>;
   };
 
-  if (pLoading) { // loading players data
+  if (pLoading) { // display message when loading players data
     return<p>Loading player data...</p>;
   };
 
-  if (pError) { // error in fetching players data
+  if (pError) { // display message when error in fetching players data
     return<p>Something went wrong: {pError}</p>;
   };
 

@@ -29,7 +29,7 @@ function Planning() {
       { headerName: 'City', field: 'city', sortable: true, filter: true, floatingFilter: true, headerClass: 'column-header' }
     ],
     pagination: true,
-    paginationPageSize: 10,
+    paginationPageSize: 10, // only display 10 team venues per table page
     rowSelection: 'single'
   };
 
@@ -39,9 +39,10 @@ function Planning() {
       // call fetchConfig() to get backend API URL
       const backendURL = await fetchConfig();
       
+      // fetch team venues data from server
       const response = await fetch(`${backendURL}/api/teams`);
       const data = await response.json();
-      return data.response;
+      return data.response; // just return the response (the data)
     } catch {
       console.error('Error fetching team venues');
     }
@@ -50,9 +51,9 @@ function Planning() {
   // call fetchTeamVenues() and set venues grid row data
   useEffect(() => {
     fetchTeamVenues()
-      .then(res => {return res;})
+      .then(res => {return res;}) // return the response before mapping it 
       .then(res => 
-        res.map(team => {
+        res.map(team => { // map all teams to extract the desired venue info for each individual team 
           return {
             team: team.team.name,
             venue: team.venue.name,
@@ -63,15 +64,15 @@ function Planning() {
       )
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
-    .then(teams => setVenuesRowData(teams));
+    .then(teams => setVenuesRowData(teams)); // set team venues row data to the above mapped data
   }, []);
 
   // display appropriate messages on the page when data are loading or when there are errors
-  if (loading) { // loading team venues data
+  if (loading) { // display message when loading team venues data
     return<p>Loading team venues...</p>;
   };
 
-  if (error) { // error in fetching team venues data
+  if (error) { // display message when error in fetching team venues data
     return<p>Something went wrong: {error}</p>;
   };
 
