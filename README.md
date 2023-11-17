@@ -6,7 +6,7 @@ This application consists of two separate applications, a client React applicati
 
 ### How to Run:
 
-In both project directories (client and server), you will first need to run:
+In the client directory, you will first need to run:
 
 #### `npm install`
 
@@ -16,4 +16,4 @@ This will install the required dependencies for the project (in a folder called 
 
 This should open the client project in a browser window. If a browser window does not automatically open, go to http://localhost:3000 to view the project.
 
-This should open the server project as well, and you can check that the server is up by going to http://localhost:3001. You should see "PremierPal server" listed on the page, and if so, the server is up and running.
+The server is Dockerised, so you will need to pull and run the correct Docker image to start the server.
