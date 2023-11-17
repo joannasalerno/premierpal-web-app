@@ -10,7 +10,7 @@ In the client directory, you will first need to run:
 
 #### `npm install`
 
-This will install the required dependencies for the project (in a folder called node_modules). Then, you will need to run:
+This will install the required dependencies for the project (in a folder called `node_modules`). Then, you will need to run:
 
 #### `npm start`
 
