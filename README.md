@@ -1,4 +1,4 @@
-# premierpal-web-app
+# PremierPal web application
 
 This is a web application called PremierPal, which allows fans of the English Premier League to view various statistics and information related to the teams and top players of the league. Users can also browse the nearest bars and pubs to each team's home venue to livestream matches and immerse themselves in the lively and fun match day atmosphere.
 
