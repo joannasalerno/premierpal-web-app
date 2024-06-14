@@ -30,3 +30,8 @@ This will install the required dependencies (in a folder called `node_modules`).
 
 This will effectively start the server application. Go to http://localhost:3001, and if the page lists "PremierPal Server", then the server is up and running.
 
+Note: For full application functionality, you will need to create API keys for the following:
+
+- [API Football](https://www.api-football.com/documentation-v3)
+- [Geoapify](https://apidocs.geoapify.com/#docs)
+- [News API](https://newsapi.org/docs)
